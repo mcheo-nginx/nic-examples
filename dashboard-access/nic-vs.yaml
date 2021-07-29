@@ -1,0 +1,20 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: nic-dashboard
+  namespace: nginx-ingress
+spec:
+  host: nic.helloclouds.net
+  upstreams:
+  - name: nic
+    service: nic-svc
+    port: 8080
+  routes:
+  - path: /
+    location-snippets: |
+        auth_basic "Administrator’s Area";
+        auth_basic_user_file /etc/nginx/.nic-auth-users/nic-auth-users;
+    action:
+      proxy:
+        upstream: nic
+
