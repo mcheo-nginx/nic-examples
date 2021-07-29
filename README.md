@@ -1,1 +1,1 @@
-# nic-examples
+# NGINX Ingress Controller examples
