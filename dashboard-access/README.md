@@ -28,10 +28,29 @@ kubectl create secret generic nic-auth-users --from-file=nic-auth-users -n nginx
     -enable-snippets        (This is required to configure basic auth)
     -nginx-status-allow-cidrs  (This is required to allow external access. Ideally, we want to lock down to NIC pod IP range)
 
-Example of args in NIC deployment manifest:
+Example of code in NIC deployment manifest args section:
 ```
           - -nginx-status-allow-cidrs=10.0.0.0/8
           - -enable-snippets
+```
+
+* Mount secret as volume into NIC
+Example of code in NIC deployment manifest:
+
+```
+        volumeMounts:
+        - name: nic-auth-users
+          mountPath: "/etc/nginx/.nic-auth-users"
+          readOnly: true
+      volumes:
+      - name: nic-auth-users
+        secret:
+          secretName: nic-auth-users
+```
+
+Redeploy your NIC
+```
+kubectl apply -f <nic deployment>.yaml -n nginx-ingress
 ```
 
 * Create service for NIC dashboard
