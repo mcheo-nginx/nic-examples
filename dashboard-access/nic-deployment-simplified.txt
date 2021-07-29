@@ -1,0 +1,36 @@
+#This file is not complete, but serve as an example on how to configure required args and volume mount
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-ingress
+  namespace: nginx-ingress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-ingress
+  template:
+    metadata:
+      labels:
+        app: nginx-ingress
+      annotations:
+       prometheus.io/scrape: "true"
+       prometheus.io/port: "9113"
+    spec:
+      serviceAccountName: nginx-ingress
+      containers:
+      - image: nginx-plus-ingress:1.11.0
+        imagePullPolicy: IfNotPresent
+        name: nginx-plus-ingress
+        args:
+          - -nginx-status-allow-cidrs=10.0.0.0/8
+          - -enable-snippets
+        volumeMounts:
+        - name: nic-auth-users
+          mountPath: "/etc/nginx/.nic-auth-users"
+          readOnly: true
+      volumes:
+      - name: nic-auth-users
+        secret:
+          secretName: nic-auth-users
