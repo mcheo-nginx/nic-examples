@@ -4,7 +4,7 @@ metadata:
   name: nic-dashboard
   namespace: nginx-ingress
 spec:
-  host: nic.helloclouds.net
+  host: nic.example.com
   upstreams:
   - name: nic
     service: nic-svc
