@@ -6,7 +6,7 @@ https://www.nginx.com/products/nginx/live-activity-monitoring/
 For quick demo: you may visit https://demo.nginx.com/ 
 
 # Port-Forward Method
-In Kubernetes deployment, when we deploy NGINX Plus as NGINX Ingress Controller (NIC), by default this dashboard is enable on port 8080 but is only accessible locally. In order for us to browse this NIC dashboard in our laptop, we will do port-forward from our laptop with the following command:
+In Kubernetes deployment, when we deploy NGINX Plus as NGINX Ingress Controller (NIC), by default this dashboard is enable on port 8080 but is only accessible locally, for security reason. In order for us to browse this NIC dashboard in our laptop, we will do port-forward from our laptop with the following command:
 ```
 kubectl port-forward <nic pod> -n nginx-ingress 8080:8080
 ```
